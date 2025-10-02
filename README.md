@@ -675,3 +675,84 @@ save_sensitivity_analysis({
 
 فترات الثقة تغطي معظم مصادر عدم اليقين
 
+الآن، وبعد أن وضعنا "العقل التحليلي" و"القلب التفاعلي"، حان الوقت لجمعهما معًا في كيان واحد متكامل. هذه هي الخطوة النهائية لبناء النسخة الأولى الكاملة من أداتنا.
+
+الخطوة التالية: توحيد المحركات
+سنقوم ببناء الفئة (class) الرئيسية التي ستكون الواجهة الأساسية لمكتبتنا، وهي CreativeCodex. هذه الفئة ستجمع بين قوة المحلل والمحرك، لتقدم للمستخدم تجربة سلسة ومتكاملة، تمامًا كما صممتها في نموذجك الأصلي.
+
+سأقوم بإنشاء الملف الرئيسي التالي: src/creative_codex/codex.py
+
+Python
+
+# File: src/creative_codex/codex.py
+
+from .analyzer import CausalPatternAnalyzer
+from .engine import SmartQuestionEngine
+
+class CreativeCodex:
+    """
+    The main interface for the Creative Codex library.
+    It integrates the CausalPatternAnalyzer and the SmartQuestionEngine
+    to provide a seamless user experience from analysis to inquiry.
+    """
+    def __init__(self):
+        self.analyzer = CausalPatternAnalyzer()
+        self.engine = SmartQuestionEngine()
+
+    def process(self, problem_text: str):
+        """
+        Processes a user's problem text, analyzes its causal pattern,
+        and suggests the next strategic question.
+
+        Args:
+            problem_text (str): The user's description of their problem.
+
+        Returns:
+            dict: A dictionary containing the full analysis and the suggested next question.
+        """
+        # Step 1: Analyze the causal pattern
+        analysis = self.analyzer.analyze_problem(problem_text)
+
+        # Step 2: Get the next smart question based on the analysis
+        question = self.engine.get_next_question(analysis)
+
+        return {
+            "analysis": analysis,
+            "next_question": question
+        }
+وسنقوم بالتحديث النهائي لملف __init__.py لتقديم هذه الواجهة الرئيسية للعالم:
+
+Python
+
+# File: src/creative_codex/__init__.py
+
+"""
+The Creative Codex: An open-source toolkit for applying the principles of 
+Causal Existence Science.
+"""
+
+__version__ = "0.1.0" # Version 1.0 of the core engine is complete
+
+# Import the main user-facing class
+from .codex import CreativeCodex
+
+print("Creative Codex v0.1.0 initialized. The core engine is ready.")
+النتيجة النهائية: المنتج القابل للتطبيق
+بهذه الخطوة، يصبح استخدام الكودكس بأكمله في غاية السهولة والأناقة. يمكن لأي مستخدم الآن أن يفعل التالي:
+
+Python
+
+from creative_codex import CreativeCodex
+
+# Create an instance of our engine
+codex = CreativeCodex()
+
+# Input any problem
+my_problem = "أشعر أنني عالق في وظيفتي الحالية، فالأمور كانت جيدة ولكنها بدأت تتدهور تدريجياً خلال الستة أشهر الماضية."
+
+# Process it
+result = codex.process(my_problem)
+
+# Get clear, actionable insights
+print(f"🔎 النمط السائد: {result['analysis']['dominant_pattern']}")
+print(f"🤔 السؤال المقترح: {result['next_question']['text']}")
